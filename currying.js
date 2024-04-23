@@ -18,8 +18,9 @@ function curry(fn) {
 }
 
 const curriedSum = curry(sum)
-console.log(curriedSum(2)(3)(5)) //10
 
+console.log(curriedSum(2)(3)(5)) //10
+//or
 const add2 = curriedSum(2)
 const add3 = add2(3)
 const add5 = add3(5)
@@ -89,3 +90,21 @@ function updateElementText(id) {
 const updateHeader = updateElementText("heading")
 
 updateHeader("Hello Narcis")
+
+//5 Curry() Implementation
+// Converts f(a, b, c) into f(a)(b)(c)
+function curried(func) {
+    return function curriedFunc(...args) {
+        if (args.length >= func.length){
+            return func(...args)
+        } else {
+            return function (...next) {
+                return curriedFunc(...args, ...next)
+            }
+        }
+    }
+}
+
+const sums = (a, b, c, d) => a + b + c + d
+const totalSum = curried(sums)
+console.log(totalSum(1)(2)(3)(6)) //12
